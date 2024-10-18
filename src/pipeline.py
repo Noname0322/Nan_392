@@ -1317,10 +1317,10 @@ def max_pixel_filter(image: Image) -> Image:
         img_array = np.array(image)
 
         # Find the maximum pixel value in the image
-        max_val = img_array.max()
+        max_val = img_array.min()
 
         # Reduce the maximum value to 1
-        img_array[img_array == max_val] -= 1
+        img_array[img_array == max_val] += 1
 
         # Convert the numpy array back to an image
         filtered_image = Image.fromarray(img_array)
@@ -1339,7 +1339,7 @@ def load_pipeline(pipeline=None) -> StableDiffusionXLPipeline:
         ).to("cuda")
     pipeline = compile_pipe(pipeline)
     for _ in range(3):
-        pipeline(prompt="photo of a dog", num_inference_steps=20, end_cfg=0.7)
+        pipeline(prompt="beautiful girl", num_inference_steps=18, end_cfg=0.8)
 
     return pipeline
 
@@ -1357,6 +1357,6 @@ def infer(request: TextToImageRequest, pipeline: StableDiffusionXLPipeline) -> I
         width=request.width,
         height=request.height,
         generator=generator,
-        end_cfg=0.7,
-        num_inference_steps=17,
+        end_cfg=0.8,
+        num_inference_steps=19,
     ).images[0]
